@@ -16,6 +16,11 @@ class PostController extends Controller
     public function show($id)
     {
         $data = Post::find($id);
+        if (is_null ($data)) {
+            return response()->json([
+                'message' => 'Resaurce not found'
+            ], 404);
+        }
         return response()->json($data, 200);
     }
 
@@ -30,5 +35,11 @@ class PostController extends Controller
     {
         $post->update($request->all());
         return response()->json($post, 200);
+    }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+        return response()->json(null, 200);
     }
 }
